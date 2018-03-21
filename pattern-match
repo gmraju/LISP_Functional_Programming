@@ -1,0 +1,20 @@
+(in-package #:exmatch)
+
+(defun ?not (x y lsts)
+  (cond ((equal (car x) y) nil)
+        (t lsts)))
+
+
+
+
+
+
+  (assert-false (match-p '(?not (a b c)) '(a b c)))
+  (assert-equal '(nil) (match-p '(?not (a b c)) 12))
+  (assert-false (match-p '(?not ?x) 'a))
+  (assert-equal '(((?x . a))) (match-p '(?x (?not ?x)) '(a b)))
+  (assert-equal '(nil) (match-p '(?not (?? > 5)) 1))
+  (assert-false (match-p '(?not (?? > 5)) 8))
+  
+  (assert-equal '(((?x . 1))) (match-p '(?and (?not > 5) ?x) 1))
+  (assert-false (match-p '(?and (?not (?? > 5)) ?x) 8))
